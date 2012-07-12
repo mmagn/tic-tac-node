@@ -1,4 +1,4 @@
-GameStatus = function(){
+GameState = function(){
 	var nextPlayer = Math.floor(Math.random()*2)+1;
 	var grid = [[0,0,0], [0,0,0], [0,0,0]];
 
@@ -9,21 +9,25 @@ GameStatus = function(){
 
 };
 
-GamePlay = function(gamestatus){
+GamePlay = function(gameState){
 
 	this.positionIsEmpty = function(x, y){
-		return !gamestatus.grid[x][y];
+		return !gameState.grid[x][y];
 	};
 
 	this.togglePlayer = function(){
-		gamestatus.nextPlayer = (gamestatus.nextPlayer === 1) ? 2 : 1;
+		gameState.nextPlayer = (gameState.nextPlayer === 1) ? 2 : 1;
+	};
+	
+	this.winner = function(){
+		return 0;
 	};
 
 	this.play = function(x, y){
 		if (this.positionIsEmpty(x, y)){
-			gamestatus.grid[x][y] = gamestatus.nextPlayer;
+			gameState.grid[x][y] = gameState.nextPlayer;
 			this.togglePlayer();
 		};
-		return gamestatus;
+		return gameState;
 	};
 };
