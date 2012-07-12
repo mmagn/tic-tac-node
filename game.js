@@ -20,7 +20,7 @@ GamePlay = function(gameState){
 	};
 	
 	this.winner = function(){
-		return 0;
+		throw "not implemented";
 	};
 
 	this.play = function(x, y){
