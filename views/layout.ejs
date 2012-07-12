@@ -4,20 +4,26 @@
     <title><%= title %></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-    var socket = io.connect(location.host);
-    socket.emit('new');
-    socket.on('message', function(data){
-        $('p').html(data.message);
-    });
-    
-    
-    </script>
+    <script src="/static/client.js"></script>
+    <link rel='stylesheet' href='/static/style.css' />
 </head>
 
 <body>
     <header>
         <h1><%= title %></h1>
-        <p>Game is loading...</p>
+        <p id="info">Game is loading...</p>
+        <p id="gameBoard">
+            <a data-position="[0,0]">a</a>
+            <a data-position="[0,1]"></a>
+            <a data-position="[0,2]"></a>
+
+            <a data-position="[1,0]"></a>
+            <a data-position="[1,1]"></a>
+            <a data-position="[1,2]"></a>
+            
+            <a data-position="[2,0]"></a>
+            <a data-position="[2,1]"></a>
+            <a data-position="[2,2]"></a>
+        </p>
     </header>
 </body>

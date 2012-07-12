@@ -9,7 +9,8 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(path.join(application_root, "static")));
+  app.use("/static", express.static(path.join(application_root, "static")));
+  // app.use("/static", express.static(__dirname + '/static'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.set('views', path.join(application_root, "views"));
   app.set('view engine', 'ejs')
