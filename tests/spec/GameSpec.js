@@ -1,4 +1,4 @@
-describe("tic-tac-node", function() {
+﻿describe("tic-tac-node", function() {
 
   var gameState, gamePlay;
 
@@ -29,8 +29,19 @@ describe("tic-tac-node", function() {
       expect(gamePlay.positionIsEmpty(0,0)).toBeFalsy();
       expect(gameState.nextPlayer === firstPlayer).toBeFalsy();
 		});
+
 	});
 
+  describe("ui tests", function() {
+
+    it("when a game starts, there is not playerClass", function() {
+      var a9 = $('<a/><a/><a/><a/><a/><a/><a/><a/><a/>');
+      updateBoard(a9, gameState);
+
+      console.log(a9);
+    });
+
+  });
 
 
 

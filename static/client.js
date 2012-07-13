@@ -1,12 +1,11 @@
-$(function(){
-	$('#gameBoard').find('a').click(function(){
-
-		console.log(this,$(this));
-	});
-});
-
-var socket = io.connect(location.host);
-socket.emit('new');
-socket.on('message', function(data){
-    $('#info').html(data.message);
-});
+var updateBoard = function(gameState){
+	var x=0, player=0;
+	for(var i=0; i<gameState.length; i++){
+		for(var j=0; j<gameState[i].length; j++){
+			player = gameState[i][j];
+			elements.eq(x).attr("class", player ? "player" + player : "");
+			x++;
+		}
+	}
+	console.log(output);
+}
