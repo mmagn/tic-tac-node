@@ -35,10 +35,20 @@
   describe("ui tests", function() {
 
     it("when a game starts, there is not playerClass", function() {
-      var a9 = $('<a/><a/><a/><a/><a/><a/><a/><a/><a/>');
-      updateBoard(a9, gameState);
+      var board = renderBoard(gameState);
+      expect(board.find('.player1').length).toBe(0);
+      expect(board.find('.player2').length).toBe(0);
+    });
 
-      console.log(a9);
+    it("when p1 played, there is a box checked for p1", function() {
+      gameState.nextPlayer = 1;
+      gamePlay.play(2, 1);
+      var board = renderBoard(gameState);
+      expect(board.find('.player1').length).toBe(1);
+      var box = JSON.parse(board.find('.player1').attr('data-position'));
+      expect(box[0]).toBe(2);
+      expect(box[1]).toBe(1);
+      expect(board.find('.player2').length).toBe(0);
     });
 
   });
