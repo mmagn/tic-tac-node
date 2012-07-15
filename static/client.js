@@ -18,10 +18,13 @@ var renderBoard = function(gameState){
 }
 
 $(function(){
-	var $gameBoard = $('#gameBoard');
+	var $gameBoard = $('#gameBoard'),
+		$gameInfo = $('#gameInfo');
 
     $gameBoard.on('click', 'a', function(){
-        console.log(this,$(this));
+        var position = JSON.parse($(this).attr('data-position'));
+        
+        socket.emit('move', position);
     });
 
 	// Socket section
@@ -29,9 +32,11 @@ $(function(){
 	var socket = io.connect(location.host);
 
 	socket.emit('new');
-	
-	socket.on('initGame', function(data){
-	    $gameBoard.html(renderBoard(data.gameState));
+
+	socket.on('updateGame', function(gameState){
+		console.log('updateGame > grid', gameState.grid);
+		$gameInfo.html('Next player: ' + gameState.nextPlayer);
+	    $gameBoard.html(renderBoard(gameState));
 	});
     
 });

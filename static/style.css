@@ -15,4 +15,15 @@
 
 #gameBoard a:hover{
     background: red;
+    cursor: pointer;
+}
+
+#gameBoard a.player1, #gameBoard a.player1:hover{
+    background: red;
+    cursor: default;
+}
+
+#gameBoard a.player2, #gameBoard a.player2:hover{
+    background: blue;
+    cursor: default;
 }

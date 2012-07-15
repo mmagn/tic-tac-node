@@ -31,9 +31,10 @@ var counter = 0;
 
 io.sockets.on('connection', function (socket) {
 
-  var currentGameState;
+  var currentGameState, currentGamePlay;
 
-  var updateGame = function(){
+  var updateClient = function(){
+    console.log('emit > updateClient :', currentGameState);
     socket.emit('updateGame', currentGameState);
   };
 
@@ -42,15 +43,16 @@ io.sockets.on('connection', function (socket) {
     console.log('new user ip: ', ip);
 
     currentGameState = getGameState(ip);
-    
-    updateGame();
+
+    updateClient();
   });
 
-  socket.on('move', function (data) {
-    console.log('new user ip: ', ip);
-
-    currentGameState = getGameState(ip);
+  socket.on('move', function (position) {
+    console.log("player is moving :", position);
+    currentGamePlay = new GamePlay(currentGameState);
     
-    updateGame();
+    currentGamePlay.play(position[0], position[1])
+
+    updateClient();
   });
 });

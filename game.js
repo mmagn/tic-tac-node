@@ -10,9 +10,8 @@ GameState = function(){
 };
 
 GamePlay = function(gameState){
-
 	this.positionIsEmpty = function(x, y){
-		return !gameState.grid[x][y];
+		return !(gameState.grid[x][y]);
 	};
 
 	this.togglePlayer = function(){
