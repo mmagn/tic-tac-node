@@ -1,3 +1,4 @@
+
 var renderBoard = function(gameState){
 	var x=0, player=0, board = $('<p>');
 
@@ -15,3 +16,22 @@ var renderBoard = function(gameState){
 	}
 	return board;
 }
+
+$(function(){
+	var $gameBoard = $('#gameBoard');
+
+    $gameBoard.on('click', 'a', function(){
+        console.log(this,$(this));
+    });
+
+	// Socket section
+
+	var socket = io.connect(location.host);
+
+	socket.emit('new');
+	
+	socket.on('initGame', function(data){
+	    $gameBoard.html(renderBoard(data.gameState));
+	});
+    
+});

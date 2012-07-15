@@ -11,28 +11,14 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/static/client.js"></script>
     <script type="text/javascript">
-        $(function(){
-            $('#gameBoard').find('a').click(function(){
 
-                console.log(this,$(this));
-            });
-        });
-
-        var socket = io.connect(location.host);
-        socket.emit('new');
-        socket.on('init', function(data){
-            updateBoard(data.gameState);
-        });
+        
     </script>
 </head>
 
 <body>
     <h1><%= title %></h1>
-    <p id="info">Game is loading...</p>
     <p id="gameBoard">
-    <% for (var i=0; i<3; i++) { %>
-    <% for (var j=0; j<3; j++) { %>
-        <a data-position="[<%= i %>,<%= j %>]"></a>
-    <% }} %>
+        Game is loading...
     </p>
 </body>

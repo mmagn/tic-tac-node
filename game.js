@@ -31,3 +31,14 @@ GamePlay = function(gameState){
 		return gameState;
 	};
 };
+
+getGameState = function(ip){
+	return new GameState();
+};
+
+
+module.exports = {
+	GamePlay: GamePlay,
+	GameState: GameState,
+	getGameState: getGameState
+};

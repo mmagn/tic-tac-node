@@ -2,7 +2,10 @@ var application_root = __dirname,
     express = require("express"),
     path = require("path");
 var app = express.createServer(),
-    io = require('socket.io').listen(app);
+    io = require('socket.io').listen(app),
+    game = require('./game');
+
+console.log("game : ", game);
 
 app.configure(function(){
   // the bodyParser middleware parses JSON request bodies
@@ -27,9 +30,27 @@ app.listen(3000);
 var counter = 0;
 
 io.sockets.on('connection', function (socket) {
+
+  var currentGameState;
+
+  var updateGame = function(){
+    socket.emit('updateGame', currentGameState);
+  };
+
   socket.on('new', function () {
     ip = socket.handshake.address.address;
     console.log('new user ip: ', ip);
-    socket.emit('message', {message: 'your ip is '+ip}); 
+
+    currentGameState = getGameState(ip);
+    
+    updateGame();
+  });
+
+  socket.on('move', function (data) {
+    console.log('new user ip: ', ip);
+
+    currentGameState = getGameState(ip);
+    
+    updateGame();
   });
 });
