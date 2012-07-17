@@ -1,8 +1,33 @@
+PlayerIdentity = function(_number, _guid){
+	this.number = _number;
+	this.guid = _guid;
+};
+
 PlayerIdentityManager = function(){
 	var players = [];
+	var counter = 0;
 
-	this.addPlayer = function(ip, number){
-		players[ip] = number;
+	var guidGenerator = function() {
+	    var S4 = function() {
+	       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+	    };
+	    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+	}
+
+	this.createPlayer = function(){
+		var guid = guidGenerator();
+		var newPlayer = new PlayerIdentity(counter, guid);
+		players.push(newPlayer);
+		counter++;
+		return newPlayer;
+	};
+
+	this.getPlayer = function(guid){
+		return players.filter(function(item){ return item.guid === guid });
+	};
+
+	this.countPlayers = function(){
+		return players.length;
 	};
 };
 
@@ -30,8 +55,8 @@ GamePlay = function(gameState){
 		throw "not implemented";
 	};
 
-	this.play = function(x, y){
-		if (this.positionIsEmpty(x, y)){
+	this.play = function(player, x, y){
+		if (gameState.nextPlayer === player, this.positionIsEmpty(x, y)){
 			gameState.grid[x][y] = gameState.nextPlayer;
 			this.togglePlayer();
 		};

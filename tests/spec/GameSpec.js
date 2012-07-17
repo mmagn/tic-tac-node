@@ -25,7 +25,7 @@
     it("if user play in position 0:0, it's next player to play and position 0:0 is not empty", function() {
       var firstPlayer = gameState.nextPlayer;
 
-      gamePlay.play(0, 0);
+      gamePlay.play(firstPlayer, 0, 0);
       expect(gamePlay.positionIsEmpty(0,0)).toBeFalsy();
       expect(gameState.nextPlayer === firstPlayer).toBeFalsy();
 		});
@@ -42,13 +42,38 @@
 
     it("when p1 played, there is a box checked for p1", function() {
       gameState.nextPlayer = 1;
-      gamePlay.play(2, 1);
+      gamePlay.play(1, 2, 1);
       var board = renderBoard(gameState);
       expect(board.find('.player1').length).toBe(1);
       var box = JSON.parse(board.find('.player1').attr('data-position'));
       expect(box[0]).toBe(2);
       expect(box[1]).toBe(1);
       expect(board.find('.player2').length).toBe(0);
+    });
+
+  });
+
+  describe("playerIdentityManager tests", function() {
+
+    it("a new player gets a GUID", function() {
+      var pim = new PlayerIdentityManager();
+      var newPlayer = pim.createPlayer();
+      expect(newPlayer).toNotBe(undefined);
+    });
+
+    it("player counter is correct", function() {
+      var pim = new PlayerIdentityManager();
+      pim.createPlayer();
+      expect(pim.countPlayers()).toBe(1);
+      pim.createPlayer();
+      expect(pim.countPlayers()).toBe(2);
+    });
+
+    it("getPlayer function is ok", function() {
+      var pim = new PlayerIdentityManager();
+      var newPlayer = pim.createPlayer();
+      var retrievedPlayer = pim.getPlayer(newPlayer.guid);
+      expect(newPlayer.number).toBe(0);
     });
 
   });

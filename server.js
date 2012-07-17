@@ -31,7 +31,9 @@ var counter = 0;
 
 io.sockets.on('connection', function (socket) {
 
-  var currentGameState, currentGamePlay;
+  var currentGameState,
+      currentGamePlay,
+      playerIdentityManager = new playerIdentityManager();
 
   var updateClient = function(){
     console.log('emit > updateClient :', currentGameState);
