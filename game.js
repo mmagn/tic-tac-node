@@ -1,3 +1,11 @@
+PlayerIdentityManager = function(){
+	var players = [];
+
+	this.addPlayer = function(ip, number){
+		players[ip] = number;
+	};
+};
+
 GameState = function(){
 	var nextPlayer = Math.floor(Math.random()*2)+1;
 	var grid = [[0,0,0], [0,0,0], [0,0,0]];
