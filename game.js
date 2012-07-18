@@ -5,17 +5,17 @@ PlayerIdentity = function(_number, _guid){
 
 PlayerIdentityManager = function(){
 	var players = [];
-	var counter = 0;
+	var counter = 1;
 
-	var guidGenerator = function() {
+	this.generateGuid = function() {
 	    var S4 = function() {
 	       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 	    };
 	    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-	}
+	};
 
 	this.createPlayer = function(){
-		var guid = guidGenerator();
+		var guid = this.generateGuid();
 		var newPlayer = new PlayerIdentity(counter, guid);
 		players.push(newPlayer);
 		counter++;
@@ -23,7 +23,7 @@ PlayerIdentityManager = function(){
 	};
 
 	this.getPlayer = function(guid){
-		return players.filter(function(item){ return item.guid === guid });
+		return players.filter(function(item){ return item.guid === guid })[0];
 	};
 
 	this.countPlayers = function(){
@@ -55,8 +55,8 @@ GamePlay = function(gameState){
 		throw "not implemented";
 	};
 
-	this.play = function(player, x, y){
-		if (gameState.nextPlayer === player, this.positionIsEmpty(x, y)){
+	this.play = function(playerNumber, x, y){
+		if (gameState.nextPlayer === playerNumber && this.positionIsEmpty(x, y)){
 			gameState.grid[x][y] = gameState.nextPlayer;
 			this.togglePlayer();
 		};
@@ -72,5 +72,7 @@ getGameState = function(ip){
 module.exports = {
 	GamePlay: GamePlay,
 	GameState: GameState,
+	PlayerIdentity: PlayerIdentity,
+	PlayerIdentityManager: PlayerIdentityManager,
 	getGameState: getGameState
 };

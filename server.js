@@ -33,27 +33,30 @@ io.sockets.on('connection', function (socket) {
 
   var currentGameState,
       currentGamePlay,
-      playerIdentityManager = new playerIdentityManager();
+      playerIdentityManager = new PlayerIdentityManager();
 
   var updateClient = function(){
-    console.log('emit > updateClient :', currentGameState);
-    socket.emit('updateGame', currentGameState);
+    socket.emit('updateGame', {
+      identity : socket.handshake.identity,
+      gameState: currentGameState
+   });
   };
 
   socket.on('new', function () {
     ip = socket.handshake.address.address;
-    console.log('new user ip: ', ip);
+    socket.handshake.identity = playerIdentityManager.createPlayer();
+    console.log('new identity: ', socket.handshake.identity);
 
     currentGameState = getGameState(ip);
+    // playerIdentityManager.add()
 
     updateClient();
   });
 
   socket.on('move', function (position) {
-    console.log("player is moving :", position);
     currentGamePlay = new GamePlay(currentGameState);
     
-    currentGamePlay.play(position[0], position[1])
+    currentGamePlay.play(socket.handshake.identity.number, position[0], position[1])
 
     updateClient();
   });

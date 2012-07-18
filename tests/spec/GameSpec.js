@@ -1,4 +1,4 @@
-﻿describe("tic-tac-node", function() {
+describe("tic-tac-node", function() {
 
   var gameState, gamePlay;
 
@@ -51,6 +51,12 @@
       expect(board.find('.player2').length).toBe(0);
     });
 
+    it("player can know who turn is", function() {
+      gameState.nextPlayer = 1;
+      var info = whoToPlay(gameState, {number:1});
+      expect(info).toBe("It's your turn.");
+    });
+
   });
 
   describe("playerIdentityManager tests", function() {
@@ -69,11 +75,12 @@
       expect(pim.countPlayers()).toBe(2);
     });
 
-    it("getPlayer function is ok", function() {
+    it("getPlayer returns a player by his guid", function() {
       var pim = new PlayerIdentityManager();
       var newPlayer = pim.createPlayer();
       var retrievedPlayer = pim.getPlayer(newPlayer.guid);
-      expect(newPlayer.number).toBe(0);
+      console.log(retrievedPlayer, newPlayer);
+      expect(retrievedPlayer.number).toBe(newPlayer.number);
     });
 
   });

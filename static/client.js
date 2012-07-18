@@ -15,10 +15,15 @@ var renderBoard = function(gameState){
 		}
 	}
 	return board;
-}
+};
+
+var whoToPlay = function(identity, gameState){
+	return identity.number === gameState.nextPlayer ? "It's your turn." : "Opponent turn.";
+};
 
 $(function(){
-	var $gameBoard = $('#gameBoard'),
+	var identity,
+		$gameBoard = $('#gameBoard'),
 		$gameInfo = $('#gameInfo');
 
     $gameBoard.on('click', 'a', function(){
@@ -33,9 +38,12 @@ $(function(){
 
 	socket.emit('new');
 
-	socket.on('updateGame', function(gameState){
-		console.log('updateGame > grid', gameState.grid);
-		$gameInfo.html('Next player: ' + gameState.nextPlayer);
+	socket.on('updateGame', function(data){
+		var gameState = data.gameState,
+			identity = data.identity;
+
+		console.log('updateGame > data', data);
+		$gameInfo.html(whoToPlay(identity, gameState));
 	    $gameBoard.html(renderBoard(gameState));
 	});
     
