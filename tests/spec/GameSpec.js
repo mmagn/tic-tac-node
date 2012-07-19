@@ -75,13 +75,62 @@ describe("tic-tac-node", function() {
       expect(pim.countPlayers()).toBe(2);
     });
 
-    it("getPlayer returns a player by his guid", function() {
+    it("getPlayerByGuid returns a player by his guid", function() {
       var pim = new PlayerIdentityManager();
       var newPlayer = pim.createPlayer();
-      var retrievedPlayer = pim.getPlayer(newPlayer.guid);
-      console.log(retrievedPlayer, newPlayer);
+      var retrievedPlayer = pim.getPlayerByGuid(newPlayer.guid);
       expect(retrievedPlayer.number).toBe(newPlayer.number);
     });
+
+    it("2 players have differents guid and number", function() {
+      var pim = new PlayerIdentityManager();
+      var newPlayer = pim.createPlayer();
+      var newPlayer2 = pim.createPlayer();
+      expect(newPlayer.guid).toNotBe(newPlayer2.guid);
+      expect(newPlayer.number).toNotBe(newPlayer2.number);
+    });
+
+    it("it can not be more than 2 players", function() {
+      var pim = new PlayerIdentityManager();
+      var newPlayer = pim.createPlayer();
+      var newPlayer2 = pim.createPlayer();
+      var newPlayer3 = pim.createPlayer();
+      expect(newPlayer).toBeDefined();
+      expect(newPlayer2).toBeDefined();
+      expect(newPlayer3).toBeUndefined();
+    });
+
+    it("remove player impact player number", function() {
+      var pim = new PlayerIdentityManager();
+      var newPlayer = pim.createPlayer();
+      var newPlayer2 = pim.createPlayer();
+      expect(pim.countPlayers()).toBe(2);
+      pim.deletePlayerByGuid(newPlayer.guid);
+      expect(pim.countPlayers()).toBe(1);
+    });
+
+    it("remove player function removes specified player not the other", function() {
+      var pim = new PlayerIdentityManager();
+      var newPlayer = pim.createPlayer();
+      var newPlayer2 = pim.createPlayer();
+      pim.deletePlayerByGuid(newPlayer.guid);
+      expect(pim.countPlayers()).toBe(1);
+      expect(pim.getPlayerByGuid(newPlayer2.guid)).toBeDefined();
+      expect(pim.getPlayerByGuid(newPlayer.guid)).toBeUndefined();
+    });
+
+    it("after removing player, when a new player arrives he gets a different number (1 or 2)", function() {
+      var pim = new PlayerIdentityManager();
+      var newPlayer = pim.createPlayer();
+      var newPlayer2 = pim.createPlayer();
+      pim.deletePlayerByGuid(newPlayer.guid);
+      var newPlayer3 = pim.createPlayer();
+      expect(newPlayer3).toBeDefined();
+      expect(newPlayer3.number).toNotBe(newPlayer2.number);
+      expect(newPlayer3.number === 1 || newPlayer3.number === 2).toBeTruthy();
+    });
+
+
 
   });
 

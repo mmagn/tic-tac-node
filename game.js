@@ -5,7 +5,7 @@ PlayerIdentity = function(_number, _guid){
 
 PlayerIdentityManager = function(){
 	var players = [];
-	var counter = 1;
+	var counter = 0;
 
 	this.generateGuid = function() {
 	    var S4 = function() {
@@ -15,6 +15,9 @@ PlayerIdentityManager = function(){
 	};
 
 	this.createPlayer = function(){
+		if (this.countPlayers() >= 2) {
+			return undefined;
+		};
 		var guid = this.generateGuid();
 		var newPlayer = new PlayerIdentity(counter, guid);
 		players.push(newPlayer);
@@ -22,12 +25,18 @@ PlayerIdentityManager = function(){
 		return newPlayer;
 	};
 
-	this.getPlayer = function(guid){
+	this.getPlayerByGuid = function(guid){
 		return players.filter(function(item){ return item.guid === guid })[0];
 	};
 
 	this.countPlayers = function(){
 		return players.length;
+	};
+
+	this.deletePlayerByGuid = function(guid){
+		players = players.filter(function(element){
+			return element.guid !== guid;
+		});
 	};
 };
 

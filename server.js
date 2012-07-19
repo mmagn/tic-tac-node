@@ -60,4 +60,11 @@ io.sockets.on('connection', function (socket) {
 
     updateClient();
   });
+
+  socket.on('disconnect', function () {
+    if(socket.handshake.identity){
+      playerIdentityManager.deletePlayerByGuid(socket.handshake.identity.guid);
+    }
+    updateClient();
+  });
 });
