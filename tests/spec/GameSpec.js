@@ -61,14 +61,16 @@ describe("tic-tac-node", function() {
 
   describe("playerIdentityManager tests", function() {
 
+    beforeEach(function() {
+      pim = new PlayerIdentityManager();
+    });
+
     it("a new player gets a GUID", function() {
-      var pim = new PlayerIdentityManager();
       var newPlayer = pim.createPlayer();
       expect(newPlayer).toNotBe(undefined);
     });
 
     it("player counter is correct", function() {
-      var pim = new PlayerIdentityManager();
       pim.createPlayer();
       expect(pim.countPlayers()).toBe(1);
       pim.createPlayer();
@@ -76,14 +78,12 @@ describe("tic-tac-node", function() {
     });
 
     it("getPlayerByGuid returns a player by his guid", function() {
-      var pim = new PlayerIdentityManager();
       var newPlayer = pim.createPlayer();
       var retrievedPlayer = pim.getPlayerByGuid(newPlayer.guid);
       expect(retrievedPlayer.number).toBe(newPlayer.number);
     });
 
     it("2 players have differents guid and number", function() {
-      var pim = new PlayerIdentityManager();
       var newPlayer = pim.createPlayer();
       var newPlayer2 = pim.createPlayer();
       expect(newPlayer.guid).toNotBe(newPlayer2.guid);
@@ -91,7 +91,6 @@ describe("tic-tac-node", function() {
     });
 
     it("it can not be more than 2 players", function() {
-      var pim = new PlayerIdentityManager();
       var newPlayer = pim.createPlayer();
       var newPlayer2 = pim.createPlayer();
       var newPlayer3 = pim.createPlayer();
@@ -101,7 +100,6 @@ describe("tic-tac-node", function() {
     });
 
     it("remove player impact player number", function() {
-      var pim = new PlayerIdentityManager();
       var newPlayer = pim.createPlayer();
       var newPlayer2 = pim.createPlayer();
       expect(pim.countPlayers()).toBe(2);
@@ -110,7 +108,6 @@ describe("tic-tac-node", function() {
     });
 
     it("remove player function removes specified player not the other", function() {
-      var pim = new PlayerIdentityManager();
       var newPlayer = pim.createPlayer();
       var newPlayer2 = pim.createPlayer();
       pim.deletePlayerByGuid(newPlayer.guid);
@@ -119,18 +116,40 @@ describe("tic-tac-node", function() {
       expect(pim.getPlayerByGuid(newPlayer.guid)).toBeUndefined();
     });
 
-    it("after removing player, when a new player arrives he gets a different number (1 or 2)", function() {
-      var pim = new PlayerIdentityManager();
+    it("after removing player, when a new player arrives he gets a different number", function() {
       var newPlayer = pim.createPlayer();
       var newPlayer2 = pim.createPlayer();
       pim.deletePlayerByGuid(newPlayer.guid);
       var newPlayer3 = pim.createPlayer();
       expect(newPlayer3).toBeDefined();
       expect(newPlayer3.number).toNotBe(newPlayer2.number);
-      expect(newPlayer3.number === 1 || newPlayer3.number === 2).toBeTruthy();
     });
 
+    it("getPlayerByNumber returns a player by his number", function() {
+      var newPlayer = pim.createPlayer();
+      var retrievedPlayer = pim.getPlayerByNumber(newPlayer.number);
+      expect(newPlayer.guid).toBe(retrievedPlayer.guid);
+    });
 
+    it("getNextNumberAvailable returns a number available for a new player", function() {
+      expect(pim.getNextNumberAvailable()).toBe(1);
+      pim.createPlayer(); //player1
+      expect(pim.getNextNumberAvailable()).toBe(2);
+      pim.createPlayer(); //player2
+      expect(pim.getNextNumberAvailable()).toBeUndefined();
+    });
+
+    it("a new player gets a number (1 or 2)", function() {
+      var newPlayer = pim.createPlayer();
+      var newPlayer2 = pim.createPlayer();
+      expect(newPlayer.number).toBe(1);
+      expect(newPlayer.number === 1 || newPlayer.number === 2).toBeTruthy();
+      expect(newPlayer2.number).toBe(2);
+      expect(newPlayer2.number === 1 || newPlayer2.number === 2).toBeTruthy();
+      pim.deletePlayerByGuid(newPlayer.guid)
+      var newPlayer1 = pim.createPlayer();
+      expect(newPlayer1.number === 1 || newPlayer1.number === 2).toBeTruthy();
+    });
 
   });
 

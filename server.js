@@ -28,29 +28,36 @@ app.get('/', function(req, res){
 app.listen(3000);
 
 var counter = 0;
+var playerIdentityManager = new PlayerIdentityManager();
 
 io.sockets.on('connection', function (socket) {
 
   var currentGameState,
-      currentGamePlay,
-      playerIdentityManager = new PlayerIdentityManager();
+      currentGamePlay;
 
   var updateClient = function(){
-    socket.emit('updateGame', {
+    var data = {
+      pim : playerIdentityManager.getPlayers(),
       identity : socket.handshake.identity,
       gameState: currentGameState
-   });
+    };
+    socket.emit('updateGame', data);
+    socket.broadcast.emit('updateGame', data);
   };
 
   socket.on('new', function () {
-    ip = socket.handshake.address.address;
-    socket.handshake.identity = playerIdentityManager.createPlayer();
-    console.log('new identity: ', socket.handshake.identity);
+    var newPlayer = playerIdentityManager.createPlayer();
+    if (newPlayer) {
+      var ip = socket.handshake.address.address;
+      socket.handshake.identity = newPlayer;
+      console.log('new identity: ', socket.handshake.identity);
 
-    currentGameState = getGameState(ip);
-    // playerIdentityManager.add()
+      currentGameState = getGameState(ip);
 
-    updateClient();
+      updateClient();
+    }else{
+      console.log("to much players"); // to fix
+    }
   });
 
   socket.on('move', function (position) {
