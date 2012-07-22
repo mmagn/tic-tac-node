@@ -27,32 +27,29 @@ app.get('/', function(req, res){
 
 app.listen(3000);
 
-var counter = 0;
-var playerIdentityManager = new PlayerIdentityManager();
+var counter = 0,
+    playerIdentityManager = new PlayerIdentityManager(),
+    currentGameState = new GameState();
 
 io.sockets.on('connection', function (socket) {
 
-  var currentGameState,
-      currentGamePlay;
+  var currentGamePlay,
+      currentPlayer;
 
   var updateClient = function(){
     var data = {
-      pim : playerIdentityManager.getPlayers(),
-      identity : socket.handshake.identity,
       gameState: currentGameState
     };
-    socket.emit('updateGame', data);
     socket.broadcast.emit('updateGame', data);
+    data.identity = socket.handshake.identity
+    socket.emit('updateGame', data);
   };
 
   socket.on('new', function () {
-    var newPlayer = playerIdentityManager.createPlayer();
-    if (newPlayer) {
+    var currentPlayer = playerIdentityManager.createPlayer();
+    if (currentPlayer) {
       var ip = socket.handshake.address.address;
-      socket.handshake.identity = newPlayer;
-      console.log('new identity: ', socket.handshake.identity);
-
-      currentGameState = getGameState(ip);
+      socket.handshake.identity = currentPlayer;
 
       updateClient();
     }else{

@@ -89,15 +89,14 @@ GamePlay = function(gameState){
 	};
 };
 
-getGameState = function(ip){
-	return new GameState();
-};
+// getGameState = function(ip){
+// 	return new GameState();
+// };
 
 
 module.exports = {
 	GamePlay: GamePlay,
 	GameState: GameState,
 	PlayerIdentity: PlayerIdentity,
-	PlayerIdentityManager: PlayerIdentityManager,
-	getGameState: getGameState
+	PlayerIdentityManager: PlayerIdentityManager
 };

@@ -39,8 +39,10 @@ $(function(){
 	socket.emit('new');
 
 	socket.on('updateGame', function(data){
-		var gameState = data.gameState,
+		var gameState = data.gameState;
+		if (data.identity) {
 			identity = data.identity;
+		};
 
 		console.log('updateGame > data', data);
 		$gameInfo.html(whoToPlay(identity, gameState));
