@@ -10,25 +10,25 @@
     margin: 5px;
     height: 140px;
     width: 140px;
-    background: #DDD;
+    background: #EEE;
 }
 
 #gameBoard.player1 a:hover{
-    background: rgb(255, 124, 124);
+    background: #EEE url(../img/players.png) scroll 0px 140px;
     cursor: pointer;
 }
 
 #gameBoard.player2 a:hover{
-    background: rgb(124, 124, 255);
+    background: #EEE url(../img/players.png) scroll 0px 0px;
     cursor: pointer;
 }
 
 #gameBoard a.player1, #gameBoard a.player1:hover{
-    background: red;
+    background: #FFF url(../img/players.png) scroll 0px 140px;;
     cursor: default;
 }
 
 #gameBoard a.player2, #gameBoard a.player2:hover{
-    background: blue;
+    background: #FFF url(../img/players.png) scroll 0px 0px;;
     cursor: default;
 }
