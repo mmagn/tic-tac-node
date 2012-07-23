@@ -1,0 +1,34 @@
+#gameBoard{
+    float: left;
+    height: 450px;
+    width: 450px;
+}
+
+#gameBoard a{
+    display: block;
+    float: left;
+    margin: 5px;
+    height: 140px;
+    width: 140px;
+    background: #DDD;
+}
+
+#gameBoard.player1 a:hover{
+    background: rgb(255, 124, 124);
+    cursor: pointer;
+}
+
+#gameBoard.player2 a:hover{
+    background: rgb(124, 124, 255);
+    cursor: pointer;
+}
+
+#gameBoard a.player1, #gameBoard a.player1:hover{
+    background: red;
+    cursor: default;
+}
+
+#gameBoard a.player2, #gameBoard a.player2:hover{
+    background: blue;
+    cursor: default;
+}
