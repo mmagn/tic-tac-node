@@ -87,6 +87,10 @@ GamePlay = function(gameState){
 		};
 		return gameState;
 	};
+
+	this.resetGame = function(){
+		gameState.grid = [[0,0,0], [0,0,0], [0,0,0]];
+	};
 };
 
 // getGameState = function(ip){

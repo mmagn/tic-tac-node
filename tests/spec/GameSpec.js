@@ -153,6 +153,23 @@ describe("tic-tac-node", function() {
 
   });
 
+  describe("GamePlay tests", function(){
+
+    it("when reseting a game, the grid is empty", function(){
+      gamePlay.play(gameState.nextPlayer, 0, 0);
+      gamePlay.play(gameState.nextPlayer, 0, 1);
+
+      gamePlay.resetGame();
+      var sum = gameState.grid.reduce(function(seed,b){
+        return seed+b.reduce(function(c,d){
+          return c+d;
+        }, 0);
+      }, 0);
+      expect(sum).toBe(0);
+    });
+
+  });
+
 
 
 

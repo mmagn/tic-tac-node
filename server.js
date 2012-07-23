@@ -59,9 +59,13 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('move', function (position) {
     currentGamePlay = new GamePlay(currentGameState);
-    
     currentGamePlay.play(socket.handshake.identity.number, position[0], position[1])
+    updateClient();
+  });
 
+  socket.on('reset', function () {
+    currentGamePlay = new GamePlay(currentGameState);
+    currentGamePlay.resetGame();
     updateClient();
   });
 
