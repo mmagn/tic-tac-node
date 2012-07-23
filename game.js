@@ -90,13 +90,9 @@ GamePlay = function(gameState){
 
 	this.resetGame = function(){
 		gameState.grid = [[0,0,0], [0,0,0], [0,0,0]];
+		this.togglePlayer();
 	};
 };
-
-// getGameState = function(ip){
-// 	return new GameState();
-// };
-
 
 module.exports = {
 	GamePlay: GamePlay,

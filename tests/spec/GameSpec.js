@@ -168,6 +168,11 @@ describe("tic-tac-node", function() {
       expect(sum).toBe(0);
     });
 
+    it("when reseting a game, next player to play changes", function(){
+      var np = gameState.nextPlayer;
+      gamePlay.resetGame();
+      expect(np).toNotBe(gameState.nextPlayer);
+    });
   });
 
 
