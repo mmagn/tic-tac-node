@@ -13,8 +13,13 @@
     background: #DDD;
 }
 
-#gameBoard a:hover{
-    background: red;
+#gameBoard.player1 a:hover{
+    background: rgb(255, 124, 124);
+    cursor: pointer;
+}
+
+#gameBoard.player2 a:hover{
+    background: rgb(124, 124, 255);
     cursor: pointer;
 }
 

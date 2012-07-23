@@ -23,13 +23,15 @@ var whoToPlay = function(identity, gameState){
 
 $(function(){
 	var identity,
+		gameState,
 		$gameBoard = $('#gameBoard'),
 		$gameInfo = $('#gameInfo');
 
     $gameBoard.on('click', 'a', function(){
         var position = JSON.parse($(this).attr('data-position'));
-        
-        socket.emit('move', position);
+        if(identity.number == gameState.nextPlayer){
+        	socket.emit('move', position);
+        };
     });
 
 	// Socket section
@@ -39,12 +41,13 @@ $(function(){
 	socket.emit('new');
 
 	socket.on('updateGame', function(data){
-		var gameState = data.gameState;
+		gameState = data.gameState;
 		if (data.identity) {
 			identity = data.identity;
+			$('#gameBoard').addClass('player'+identity.number);
 		};
 
-		console.log('updateGame > data', data);
+		// console.log('updateGame > data', data);
 		$gameInfo.html(whoToPlay(identity, gameState));
 	    $gameBoard.html(renderBoard(gameState));
 	});
