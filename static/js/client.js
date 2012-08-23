@@ -42,7 +42,7 @@ $(function(){
     });
 	// Socket section
 
-	var socket = io.connect(location.host);
+	var socket = io.connect(location.hostname);
 
 	socket.emit('new');
 

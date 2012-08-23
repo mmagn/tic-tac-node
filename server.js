@@ -1,9 +1,12 @@
 var application_root = __dirname,
-    express = require("express"),
-    path = require("path");
-var app = express.createServer(),
-    io = require('socket.io').listen(app),
-    game = require('./game');
+    path = require("path"),
+    game = require('./game'),
+    express = require('express');
+
+var app = express(),
+  http = require('http'),
+  server = http.createServer(app),
+  io = require('socket.io').listen(server);
 
 console.log("game : ", game);
 
@@ -24,8 +27,6 @@ app.get('/', function(req, res){
     locals.title = "tic-tac-node";
     res.render('layout', locals);
 });
-
-app.listen(3000);
 
 var counter = 0,
     playerIdentityManager = new PlayerIdentityManager(),
@@ -76,3 +77,5 @@ io.sockets.on('connection', function (socket) {
     updateClient();
   });
 });
+
+server.listen(3000);
