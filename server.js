@@ -1,12 +1,18 @@
 var application_root = __dirname,
     path = require("path"),
-    game = require('./game'),
     express = require('express');
 
 var app = express(),
   http = require('http'),
   server = http.createServer(app),
   io = require('socket.io').listen(server);
+
+var game = {
+  gamePlay: require('./game/gamePlay'),
+  gameState: require('./game/gameState'),
+  playerIdentity: require('./game/playerIdentity'),
+  playerIdentityManager: require('./game/playerIdentityManager')
+};
 
 console.log("game : ", game);
 

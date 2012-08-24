@@ -35,7 +35,7 @@ describe("tic-tac-node", function() {
   describe("ui tests", function() {
 
     it("when a game starts, there is not playerClass", function() {
-      var board = renderBoard(gameState);
+      var board = ticTacNode.renderBoard(gameState);
       expect(board.find('.player1').length).toBe(0);
       expect(board.find('.player2').length).toBe(0);
     });
@@ -43,7 +43,7 @@ describe("tic-tac-node", function() {
     it("when p1 played, there is a box checked for p1", function() {
       gameState.nextPlayer = 1;
       gamePlay.play(1, 2, 1);
-      var board = renderBoard(gameState);
+      var board = ticTacNode.renderBoard(gameState);
       expect(board.find('.player1').length).toBe(1);
       var box = JSON.parse(board.find('.player1').attr('data-position'));
       expect(box[0]).toBe(2);
@@ -53,7 +53,7 @@ describe("tic-tac-node", function() {
 
     it("player can know who turn is", function() {
       gameState.nextPlayer = 1;
-      var info = whoToPlay(gameState, {number:1});
+      var info = ticTacNode.whoToPlay(gameState, {number:1});
       expect(info).toBe("It's your turn.");
     });
 

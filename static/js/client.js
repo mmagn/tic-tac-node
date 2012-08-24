@@ -1,25 +1,28 @@
-$(function(){
-	var renderBoard = function(gameState){
-		var x=0, player=0, board = $('<p>');
+var ticTacNode = {};
 
-		for(var i=0; i<gameState.grid.length; i++){
-			for(var j=0; j<gameState.grid[i].length; j++){
+ticTacNode.renderBoard = function(gameState){
+	var x=0, player=0, board = $('<p>');
 
-				var elt = $('<a>');
-				player = gameState.grid[i][j];
-				elt.addClass(player ? "player" + player : "");
-				elt.attr("data-position", "["+i+","+j+"]");
-				board.append(elt);
-				x++;
+	for(var i=0; i<gameState.grid.length; i++){
+		for(var j=0; j<gameState.grid[i].length; j++){
 
-			}
+			var elt = $('<a>');
+			player = gameState.grid[i][j];
+			elt.addClass(player ? "player" + player : "");
+			elt.attr("data-position", "["+i+","+j+"]");
+			board.append(elt);
+			x++;
+
 		}
-		return board;
-	};
+	}
+	return board;
+};
 
-	var whoToPlay = function(identity, gameState){
-		return identity.number === gameState.nextPlayer ? "It's your turn." : "Opponent turn.";
-	};
+ticTacNode.whoToPlay = function(identity, gameState){
+	return identity.number === gameState.nextPlayer ? "it's your turn." : "it's your opponent to play.";
+};
+
+$(function(){
 	
 	var identity,
 		gameState,
@@ -41,7 +44,14 @@ $(function(){
     });
 	// Socket section
 
-	var socket = io.connect(location.hostname);
+	var socket = io.connect();
+	var playerName = "";
+
+	while(!playerName){
+		playerName = prompt('Player name','');
+	}
+
+	$gameInfo.html(playerName).append(', <small></small>');
 
 	socket.emit('new');
 
@@ -53,8 +63,8 @@ $(function(){
 		};
 
 		// console.log('updateGame > data', data);
-		$gameInfo.html(whoToPlay(identity, gameState));
-	    $gameBoard.html(renderBoard(gameState));
+		$gameInfo.find('small').html(ticTacNode.whoToPlay(identity, gameState));
+	    $gameBoard.html(ticTacNode.renderBoard(gameState));
 	});
     
 });
