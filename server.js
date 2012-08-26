@@ -8,13 +8,13 @@ var app = express(),
   io = require('socket.io').listen(server);
 
 var game = {
-  gamePlay: require('./game/gamePlay'),
-  gameState: require('./game/gameState'),
-  playerIdentity: require('./game/playerIdentity'),
-  playerIdentityManager: require('./game/playerIdentityManager')
+  gamePlay: require('./src/game/gamePlay'),
+  gameState: require('./src/game/gameState'),
+  playerIdentity: require('./src/game/playerIdentity'),
+  playerIdentityManager: require('./src/game/playerIdentityManager')
 };
 
-console.log("game : ", game);
+console.log("server is listening at http://127.0.0.1:3000");
 
 app.configure(function(){
   // the bodyParser middleware parses JSON request bodies

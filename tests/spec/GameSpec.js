@@ -54,7 +54,7 @@ describe("tic-tac-node", function() {
     it("player can know who turn is", function() {
       gameState.nextPlayer = 1;
       var info = ticTacNode.whoToPlay(gameState, {number:1});
-      expect(info).toBe("It's your turn.");
+      expect(info).toBe("it's your turn.");
     });
 
   });
