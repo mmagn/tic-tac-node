@@ -7,6 +7,9 @@ describe("multi player manager", function() {
     player1 = {
       username: 'toto'
     };
+    player2 = {
+      username: 'titi'
+    };
   });
 
   describe("when multi player manager is initialized", function() {
@@ -42,6 +45,12 @@ describe("multi player manager", function() {
       result1b = multiPlayerManager.addPlayer(player1);
       expect(multiPlayerManager.getPlayers().length).toBe(1);
       expect(result1b).toBe(false);
+    });
+
+    it("if the username isn't used, subscription succeded and he gets a 'true'", function() {
+      result2 = multiPlayerManager.addPlayer(player2);
+      expect(multiPlayerManager.getPlayers().length).toBe(2);
+      expect(result2).toBe(true);
     });
     
   });
