@@ -22,4 +22,11 @@ MultiPlayerManager = function(){
 		return true;
 	};
 
+	this.removePlayer = function(player){
+		players = players.filter(function(item){
+			return item.username !== player.username;
+		});
+		return players;
+	};
+
 };

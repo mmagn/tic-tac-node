@@ -52,6 +52,16 @@ describe("multi player manager", function() {
       expect(multiPlayerManager.getPlayers().length).toBe(2);
       expect(result2).toBe(true);
     });
+
+    describe("when a player is disconnecting", function() {
+
+      it("he's removed from the list", function() {
+        multiPlayerManager.removePlayer(player1);
+        expect(multiPlayerManager.getPlayers().length).toBe(0);
+      });
+      
+    });
     
   });
+
 });
