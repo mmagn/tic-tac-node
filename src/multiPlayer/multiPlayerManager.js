@@ -1,5 +1,4 @@
-// un joueur arrive il donne son nom, il rentre dans la liste
-
+var _ = require("underscore");
 
 MultiPlayerManager = function(){
 	var players = [];
@@ -29,4 +28,8 @@ MultiPlayerManager = function(){
 		return players;
 	};
 
+};
+
+module.exports = {
+	MultiPlayerManager: MultiPlayerManager
 };

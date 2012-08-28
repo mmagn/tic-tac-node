@@ -24,7 +24,7 @@ ticTacNode.whoToPlay = function(identity, gameState){
 
 $(function(){
 	
-	var identity,
+	/*var identity,
 		gameState,
 		$gameBoard = $('#gameBoard'),
 		$gameInfo = $('#gameInfo'),
@@ -41,21 +41,27 @@ $(function(){
     	if(confirm('Do you want to reset the game ?')){
     		socket.emit('reset');
     	}
-    });
+    });*/
+
 	// Socket section
 
 	var socket = io.connect();
+
 	var playerName = "";
 
 	while(!playerName){
 		playerName = prompt('Player name','');
 	}
 
-	$gameInfo.html(playerName).append(', <small></small>');
+	/*$gameInfo.html(playerName).append(', <small></small>');*/
 
-	socket.emit('new');
+	socket.emit('new', playerName);
 
-	socket.on('updateGame', function(data){
+	socket.on('updatePlayers', function(players){
+		console.log(players);
+	});
+
+	/*socket.on('updateGame', function(data){
 		gameState = data.gameState;
 		if (data.identity) {
 			identity = data.identity;
@@ -65,6 +71,6 @@ $(function(){
 		// console.log('updateGame > data', data);
 		$gameInfo.find('small').html(ticTacNode.whoToPlay(identity, gameState));
 	    $gameBoard.html(ticTacNode.renderBoard(gameState));
-	});
+	});*/
     
 });
