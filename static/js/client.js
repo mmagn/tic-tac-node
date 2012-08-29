@@ -22,6 +22,14 @@ ticTacNode.whoToPlay = function(identity, gameState){
 	return identity.number === gameState.nextPlayer ? "it's your turn." : "it's your opponent to play.";
 };
 
+ticTacNode.askUsername = function(socket){
+	var playerName = "";
+	while(!playerName){
+		playerName = prompt('Player name','');
+	}
+	socket.emit('tellUsername', playerName);
+};
+
 $(function(){
 	
 	/*var identity,
@@ -47,19 +55,19 @@ $(function(){
 
 	var socket = io.connect();
 
-	var playerName = "";
-
-	while(!playerName){
-		playerName = prompt('Player name','');
-	}
-
-	/*$gameInfo.html(playerName).append(', <small></small>');*/
-
-	socket.emit('new', playerName);
+	socket.on('askUsername', function(){
+		ticTacNode.askUsername(socket);
+	});
 
 	socket.on('updatePlayers', function(players){
 		console.log(players);
+		var $playersList = $('#playersList').empty();
+		for (var i = 0; i < players.length; i++) {
+			$playersList.append('<ul>'+players[i].username+'</ul>')
+		};
 	});
+
+	socket.emit('new');
 
 	/*socket.on('updateGame', function(data){
 		gameState = data.gameState;

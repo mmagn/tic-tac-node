@@ -44,7 +44,7 @@ var counter = 0,
 		currentGameState = new GameState();
 
 io.sockets.on('connection', function (socket) {
-
+	var connection = {};
 	var currentGamePlay,
 			currentPlayer;
 
@@ -57,11 +57,39 @@ io.sockets.on('connection', function (socket) {
 		socket.emit('updateGame', data);
 	};
 
-	socket.on('new', function (username) {
-		if(multiPlayerManager.addPlayer({username: username})){
+	var client = {
+		askUsername: function(){
+			socket.emit('askUsername');
+		},
 
-			socket.broadcast.emit('updatePlayers', multiPlayerManager.getPlayers());
-			socket.emit('updatePlayers', multiPlayerManager.getPlayers());
+		updatePlayers : function(){
+			var playersToBroadcast = multiPlayerManager.getPlayers();
+			console.info(playersToBroadcast.length + ' active connection(s)');
+			socket.broadcast.emit('updatePlayers', playersToBroadcast);
+			socket.emit('updatePlayers', playersToBroadcast);
+		}
+	};
+
+	socket.on('new', function () {
+			client.updatePlayers();
+			client.askUsername();
+	});
+
+	socket.on('tellUsername', function (username) {
+		var player = {username: username};
+		if(multiPlayerManager.addPlayer(player)){
+			connection.player = player;
+			client.updatePlayers();
+		}else{
+			client.askUsername();
+		}
+	});
+
+	socket.on('disconnect', function () {
+		if(connection.player){
+			multiPlayerManager.removePlayer(connection.player)
+			client.updatePlayers();
+			connection.player = undefined;
 		}
 	});
 
@@ -74,13 +102,6 @@ io.sockets.on('connection', function (socket) {
 	socket.on('reset', function () {
 		currentGamePlay = new GamePlay(currentGameState);
 		currentGamePlay.resetGame();
-		updateClient();
-	});
-
-	socket.on('disconnect', function () {
-		if(socket.handshake.identity){
-			playerIdentityManager.deletePlayerByGuid(socket.handshake.identity.guid);
-		}
 		updateClient();
 	});
 });
