@@ -30,6 +30,10 @@ ticTacNode.askUsername = function(socket){
 	socket.emit('tellUsername', playerName);
 };
 
+ticTacNode.waitForOpponent = function(socket){
+	$('#gameInfo').html('Waiting for opponent...');
+};
+
 $(function(){
 	
 	/*var identity,
@@ -57,6 +61,10 @@ $(function(){
 
 	socket.on('askUsername', function(){
 		ticTacNode.askUsername(socket);
+	});
+
+	socket.on('waitForOpponent', function(){
+		ticTacNode.waitForOpponent(socket);
 	});
 
 	socket.on('updatePlayers', function(players){

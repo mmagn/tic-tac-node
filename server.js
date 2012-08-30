@@ -80,6 +80,7 @@ io.sockets.on('connection', function (socket) {
 		if(multiPlayerManager.addPlayer(player)){
 			connection.player = player;
 			client.updatePlayers();
+			socket.emit('waitForOpponent');
 		}else{
 			client.askUsername();
 		}
