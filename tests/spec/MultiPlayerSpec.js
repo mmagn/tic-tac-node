@@ -53,6 +53,12 @@ describe("multi player manager", function() {
       expect(result2).toBe(true);
     });
 
+    it("he has no board and is available for playing", function() {
+      expect(result1.board).toBe(undefined);
+      var gamers = multiPlayerManager.getPlayersAvailable();
+      expect(gamers.length).toBe(1);
+    });
+
     describe("when a player is disconnecting", function() {
 
       it("he's removed from the list", function() {

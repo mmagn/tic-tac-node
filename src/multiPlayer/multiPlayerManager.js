@@ -1,7 +1,8 @@
-var _ = require("underscore");
+var _ = typeof _ === "undefined" ? require("underscore") : _ ;
 
 MultiPlayerManager = function(){
 	var players = [];
+	var boards = [];
 
 	this.getPlayerByUsername = function(username){
 		return _.find(players, function(item){
@@ -26,6 +27,12 @@ MultiPlayerManager = function(){
 			return item.username !== player.username;
 		});
 		return players;
+	};
+
+	this.getPlayersAvailable = function(){
+		return players.filter(function(item){
+			return typeof item.board === "undefined";
+		});
 	};
 
 };
